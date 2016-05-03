@@ -49,7 +49,7 @@ by your favorite ORM, no ORM at all and even no database.
 
 The installer will also ask you for some configuration parameters:
 
-* `datanase_*`: database credentials (MySQL is configured by default, but other populars RDBMS are supported)
+* `database_*`: database credentials (MySQL is configured by default, but other populars RDBMS are supported)
 * `mailer_*`: mail server credentials (to send mails)
 * `cors_allow_origin`: the URL of your default web client application to automatically set appropriate [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
   headers, **set it to `http://locahost:9000` (the default URL of the built-in Grunt server of our AngularJS client) to follow this tutorial**
@@ -86,7 +86,7 @@ Run the built-in web server:
 
     $ bin/console server:start
 
-You can open `http://localhost:8000` with you preferred REST client.
+You can open `http://localhost:8000` with your preferred REST client.
 We recommend [Postman](https://www.getpostman.com), and you will see later that API Platform is nicely integrated with it.
 
 When you're done with the demo app and want to create your own API:
@@ -111,11 +111,11 @@ Report types you're interested in a YAML configuration file like in the followin
 ```yaml
 # app/config/schema.yml
  
-types:                      # The list of type to generated (a PHP entity class by type will be generated)
+types:                      # The list of type to generate (a PHP entity class will be generated for each type)
   BlogPosting:
     parent: false           # It's a best practice to have entity without parents
     properties:             # The list of properties we want to use
-      name: ~               # You can include properties from the current type and of all these parents
+      name: ~               # You can include properties from the current type and all of these parents
       articleBody: ~
       articleSection: ~
       headline: ~
@@ -123,11 +123,11 @@ types:                      # The list of type to generated (a PHP entity class 
       datePublished: ~
       author:
         range: Person       # You can specify relations, here we force the type of the property to Person
-        cardinality: (*..0) # We also the cardinality of the relation
+        cardinality: (*..0) # We also specify the cardinality of the relation
       kevinReview:          # You can also define custom properties, not available in Schema.org
         range: Text         # For custom properties, type must always be specified
-        cardinality: (*..0) # Using the cardinality here (not a relation) allow to deal with the nullable option
-  Person:                   # Person is a relation of the BlogPosting type (author property), relations will be automatically generated
+        cardinality: (*..0) # Using the cardinality here (not a relation) allows to deal with the nullable option
+  Person:                   # Person is a relation of the BlogPosting type (author property), relations will be generated automatically
     parent: false
     properties:
       familyName: ~         # We add some common properties defined by Schema.org
@@ -157,7 +157,7 @@ As you can see with `kevinReview`, it's also possible to define custom propertie
 The schema generator is smart enough to guess types (`range` in the Schema.org terminology) and cardinalities of properties.
 Use the `range` and `cardinality` keys if you want to override those values.
 
-The `namespaces` key contain the namespace where generates entities belong. The generator is also able to generate enums,
+The `namespaces` key contains the namespaces where generated entities belong. The generator is also able to generate enums,
 interfaces and abstract class. Here we use the default Symfony directory for entities.
 
 Finally, the `annotationGenerators` key contains the list of annotation generators we want to register. With those settings
@@ -189,14 +189,14 @@ We generated a set of Plain-Old-PHP entities representing our data model. As pro
 The data model is fully functional. You can hack it (modify entities, properties, indexes, validation rules...), or use it
 as is!
 
-Reusing an existing semantic schema like we just done has many advantages:
+Reusing an existing semantic schema like we have just done has many advantages:
 
 **Don't Reinvent The Wheel**
 
 Data models provided by Schema.org are popular and have been proved efficient. They cover a broad spectrum of topics including
 creative work, e-commerce, event, medicine, social networking, people, postal address, organization, place or review. Schema.org
 has its root in [a ton of preexisting well designed vocabularies](http://schema.rdfs.org/mappings.html) and is successfully
-used by more and more website and applications.
+used by more and more websites and applications.
 
 Pick up schemas applicable to your application, generate your PHP model, then customize and specialize it to fit your needs.
 
@@ -217,7 +217,7 @@ and process data from any website or app using such technologies.
 
 Ask Doctrine to create the database of the project:
 
-    $ bin/console doctrine:database:drop --force # Just in case you created the DB to play with the bookstore app, be careful with this command it deletes data permanently
+    $ bin/console doctrine:database:drop --force # Just in case you created the DB to play with the bookstore app, be careful with this command it deletes database permanently
     $ bin/console doctrine:database:create
 
 Then generate database tables related to the generated entities:
@@ -244,8 +244,8 @@ do is to remove `api-platform/schema-generator` from your `composer.json` file.
 We have a working data model backed by a database. But we also got a working hypermedia REST API thanks to **[API Platform Core](../core/index.md)**.
 
 The core, like the schema generator, is already pre-installed and properly configured.
-We just need to mark resources we want to expose with an `@Resource` annotation. Open any of the generated entities, and
-you'll see that the schema generator already added this annotation for us.
+We just need to mark resources we want to expose with a `@Resource` annotation. Open any of the generated entities, and
+you'll see that the schema generator has already added this annotation for us.
 
 And our API is already finished! How would it be easier?
 
@@ -262,13 +262,13 @@ Then open `http://localhost:8000/doc` with a web browser:
 ![API doc](images/api-doc.png)]
 
 Thanks to [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle) support of ApiBundle and its integration
-with API Platform, you get for a free **an automatically generated human-readable documentation** of the API (Swagger-like).
+with API Platform, you get for free **an automatically generated human-readable documentation** of the API (Swagger-like).
 The doc also **includes a sandbox** to try the API.
 
 You can also use your favorite HTTP client (yeah, we already talked about Postman) to query the API.
 It is lower level than the sandbox and will allow to inspect forge and inspect JSON requests and responses easily.
 
-Open `http://localhost:8000` with Postman. This URL is the entry point of the API. It gives to access to all exposed
+Open `http://localhost:8000` with Postman. This URL is the entry point of the API. It will give you an access to all exposed
 resources. As you can see, the API returns minified JSON-LD. For better readability, JSON snippets have been prettified
 in this document.
 
