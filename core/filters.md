@@ -178,7 +178,7 @@ services:
    offer.order_filter:
         parent:    "api_platform.doctrine.orm.order_filter"
         arguments: [ { "id": ~, "name": ~ } ]
-        tags:      [ { name: 'api_platform.filter', id: 'offer.order' }
+        tags:      [ { name: 'api_platform.filter', id: 'offer.order' } ]
 ```
 
 
