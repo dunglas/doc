@@ -101,7 +101,7 @@ As others filters, the date filter must be explicitly enabled:
 # app/config/services.yml
 
 services:
-    # Enable date filter for for the property "dateProperty" of the resource "offer"
+    # Enable date filter for the property "dateProperty" of the resource "offer"
     offer.date_filter:
         parent:    "api_platform.doctrine.orm.date_filter"
         arguments: [ { "dateProperty": ~ } ]
