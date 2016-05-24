@@ -25,7 +25,7 @@ api_platform:
         myformat:                      ['application/vnd.myformat']
 ```
 
-## Registering a custom format in the Negotiation library
+## Registering a custom formatg in the Negotiation library
 
 If the format you want to use is not supported by default in the Negotiation library, you must register it using a [compiler pass](http://symfony.com/doc/current/components/dependency_injection/compilation.html#creating-a-compiler-pass):
 
