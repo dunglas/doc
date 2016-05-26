@@ -20,6 +20,8 @@ The search filter supports exact and partial matching strategies.
 If the partial strategy is specified, an SQL query with a `WHERE` clause similar
 to `LIKE %text to search%` will be automatically issued.
 
+If you need case insensitive search, prefix the strategy with the letter `i`, for example `ipartial` will generate the sql clause `WHERE LOWER(property) LIKE LOWER(%binded%)`. Don't forget to use function indexes or you'll hit performance issues!
+
 In the following, we will see how to allow filtering a list of e-commerce offers:
 
 ```yaml
@@ -39,8 +41,8 @@ services:
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -50,7 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Offer Documentation on Schema.org
  *
  * @ORM\Entity
- * @Resource(attributes={"filters"={"offer.search"}},iri="http://schema.org/Offer")
+ * @ApiResource(attributes={"filters"={"offer.search"}},iri="http://schema.org/Offer")
  */
 class Offer
 {
@@ -104,7 +106,7 @@ services:
     # Enable date filter for for the property "dateProperty" of the resource "offer"
     offer.date_filter:
         parent:    "api_platform.doctrine.orm.date_filter"
-        arguments: [ { "dateProperty": ~ } ]
+        arguments: [ { "dateProperty": 'include_null_after' } ]
         tags:      [ { name: 'api_platform.filter', id: 'offer.date' } ]
 ```
 
@@ -114,8 +116,8 @@ services:
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -125,7 +127,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Offer Documentation on Schema.org
  *
  * @ORM\Entity
- * @Resource(attributes={"filters"={"offer.search","offer.date"}},iri="http://schema.org/Offer")
+ * @ApiResource(attributes={"filters"={"offer.search","offer.date"}},iri="http://schema.org/Offer")
  */
 class Offer
 {
@@ -141,9 +143,9 @@ Four behaviors are available at the property level of the filter:
 | Description                          | Strategy to set                                                               |
 |--------------------------------------|-------------------------------------------------------------------------------|
 | Use the default behavior of the DBMS | `null`                                                                        |
-| Exclude items                        | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::EXCLUDE_NULL` (`0`)        |
-| Consider items as oldest             | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::INCLUDE_NULL_BEFORE` (`1`) |
-| Consider items as youngest           | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::INCLUDE_NULL_AFTER` (`2`)  |
+| Exclude items                        | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::EXCLUDE_NULL` (`exclude_null`)        |
+| Consider items as oldest             | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::INCLUDE_NULL_BEFORE` (`include_null_before`) |
+| Consider items as youngest           | `ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::INCLUDE_NULL_AFTER` (`include_null_after`)  |
 
 For instance, exclude entries with a property value of `null`, with the following service definition:
 
@@ -188,8 +190,8 @@ services:
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -199,7 +201,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Offer Documentation on Schema.org
  *
  * @ORM\Entity
- * @Resource(attributes={"filters"={"offer.search","offer.date","offer.order"}},iri="http://schema.org/Offer")
+ * @ApiResource(attributes={"filters"={"offer.search","offer.date","offer.order"}},iri="http://schema.org/Offer")
  */
 class Offer
 {
@@ -253,8 +255,8 @@ services:
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -264,7 +266,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Offer Documentation on Schema.org
  *
  * @ORM\Entity
- * @Resource(attributes={"filters"={"offer.search","offer.date","offer.boolean"}},iri="http://schema.org/Offer")
+ * @ApiResource(attributes={"filters"={"offer.search","offer.date","offer.boolean"}},iri="http://schema.org/Offer")
  */
 class Offer
 {
@@ -303,8 +305,8 @@ services:
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -314,7 +316,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see http://schema.org/Offer Documentation on Schema.org
  *
  * @ORM\Entity
- * @Resource(attributes={"filters"={"offer.search","offer.date","offer.boolean","offer.numeric"}},iri="http://schema.org/Offer")
+ * @ApiResource(attributes={"filters"={"offer.search","offer.date","offer.boolean","offer.numeric"}},iri="http://schema.org/Offer")
  */
 class Offer
 {

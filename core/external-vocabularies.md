@@ -13,7 +13,7 @@ ApiPlatformBundle provides annotations usable on PHP classes and properties for 
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Property;
+use ApiPlatform\Core\Annotation\ApiProperty;
 /**
  * ...
  * @see http://schema.org/Product Documentation on Schema.org
@@ -24,7 +24,7 @@ class Product
 
     /**
      * ...
-     * @Property(iri="http://schema.org/name")
+     * @ApiProperty(iri="http://schema.org/name")
      */
     public $name;
 }

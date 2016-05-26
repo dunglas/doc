@@ -39,11 +39,11 @@ If you want to use custom controller action, [refer to the dedicated documentati
 
 ```php
 <?php
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Resource(itemOperations={
+ * @ApiResource(itemOperations={
  *     "get"={"method"="GET"},
  *     "put"={"method"="PUT"},
  *     "custom_get"={
@@ -136,11 +136,11 @@ resources:
 
 ```php
 <?php
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Resource(collectionOperations={"get"={"method"="GET"}})
+ * @ApiResource(collectionOperations={"get"={"method"="GET"}})
  * @ORM\Entity
  */
 class Product
@@ -178,11 +178,11 @@ resources:
 
 ```php
 <?php
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @Resource(collectionOperations={"get"={"method"="GET"}}, itemOperations={})
+ * @ApiResource(collectionOperations={"get"={"method"="GET"}}, itemOperations={})
  * @ORM\Entity
  */
 class Product

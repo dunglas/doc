@@ -204,13 +204,13 @@ A resource can be defined through Annotations, Yaml or XML. The following repres
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @Resource
+ * @ApiResource
  */
 class Product
 {
@@ -221,13 +221,13 @@ class Product
 
 namespace AppBundle\Entity;
 
-use ApiPlatform\Core\Annotation\Resource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @Resource
+ * @ApiResource
  */
 class Offer
 {
