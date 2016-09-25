@@ -314,7 +314,7 @@ final class BookContextBuilder implements SerializerContextBuilderInterface
         $this->authorizationChecker = $authorizationChecker;
     }
 
-    public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null) : array
+    public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null)
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
         if ($this->authorizationChecker->isGranted('ROLE_ADMIN') && false === $normalization) {
